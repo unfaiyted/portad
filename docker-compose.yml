@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+  nginx:
+    image: nginx:latest
+    container_name: portus-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:Z
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - portus_network
+  frontend:
+    container_name: portus-frontend
+    build:
+      context: ./frontend
+      args:
+       - VITE_SHORTEN_API_BASE_URL=http://go/api/v1
+      # Build-time environment variables for Vite
+    ports:
+      - "6664:3000"
+    networks:
+      - portus_network
+  backend:
+    container_name: portus-backend
+    build: ./backend
+    ports:
+      - "6663:8080"
+    depends_on:
+      - db
+    environment:
+      - PORTUS_DB_HOST=db
+      - PORTUS_DB_PORT=5432
+      - PORTUS_DB_USER=postgres
+      - PORTUS_DB_PASSWORD=yourpassword
+      - PORTUS_DB_NAME=portusdb
+      # Allow requests from Nginx
+      - PORTUS_AUTH_ALLOWEDORIGINS=http://localhost:5173,https://paste.prt.ad,http://memoria,https://prt.ad
+    # volumes:
+    # - ./temp_config:/app/config
+    networks:
+      - portus_network
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=yourpassword
+      - POSTGRES_DB=portusdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - portus_network
+
+networks:
+  portus_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
