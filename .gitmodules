@@ -1,6 +1,6 @@
 [submodule "backend"]
 	path = backend
-	url = git@github.com:unfaiyted/portus.git
+	url = https://github.com/unfaiyted/portus.git
 [submodule "frontend"]
 	path = frontend
-	url = git@github.com:unfaiyted/portus-frontend.git
+	url = https://github.com/unfaiyted/portus-frontend.git
