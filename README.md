@@ -28,8 +28,8 @@ This is an open source URL Shortener service. I wanted to create a self-hosted a
 1. Clone the repository with submodules:
 
 ```bash
-git clone --recursive https://github.com/unfaiyted/memoria.git
-cd memoria
+git clone --recursive https://github.com/unfaiyted/portad.git
+cd portad
 ```
 
 2. Initialize and update submodules:
@@ -76,7 +76,7 @@ docker compose up backend
 ## 🏗️ Project Structure
 
 ```
-memoria/
+portad/
 ├── docker-compose.yml
 ├── frontend/    # Frontend submodule
 └── backend/     # Backend submodule
